@@ -1,0 +1,136 @@
+ <section
+        class="hero_banner bg_style"
+        style="background-image: url('assets/img/banner_img.jpg ')">
+        <div class="home-slider">
+          {% for block in section.blocks %}
+          <div class="home-slider-main">
+            <div class="container">
+              <div class="home-slider-content">
+                <div class="under slider_slide">
+                  <div class="col-md-7">
+                    <h1>{{ block.settings.heading }}</h1>
+                   
+                     {{ block.settings.decsription }}
+                    
+                    <div class="home_slider_btn">
+                      <a href="{{ block.settings.btn-url }}" class="theme_btn">{{ block.settings.btn-text }}</a>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <!-- <div class="img_banner">
+                      <img src="{{ block.settings.image | img_url: "master" }}" alt>
+                    </div> -->
+            <!-- <div class="hero_video_inner">
+            <div class="hero_video">
+            <video id="myVideoMine" type="video/mp4" preload="" playsinline="" loop="" style="visibility: visible;">
+            <source src="{{ block.settings.video_url }}">
+           </video>
+           <div class="stopVideo"></div>
+               <div class="videoPlayIcon">
+              <img src="https://cdn.shopify.com/s/files/1/0671/2593/6344/files/play-button-28245.png?v=1704371842" />
+            </div>
+          </div>
+          </div> -->
+                    <div class="hero_banner_video">
+          <video id="myVideo" poster="" src="{{ block.settings.video_url }}" type="video/mp4" preload="auto" muted="muted" playsinline="" autoplay="autoplay" loop="loop" style="visibility: visible;">
+            <source src="{{ block.settings.video_url }}">
+        </video>
+                    </div>
+
+                    
+             </div> 
+            </div>
+              </div>
+            </div>
+          </div>
+       {% endfor %}
+          
+        </div>
+      </section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    let vid = document.getElementById("myVideoMine");
+    function playVid() { 
+      vid.play();
+      $('.videoPlayIcon').addClass('hide');
+      // $('.stopVideo').css("display","block");
+    } 
+    
+    function pauseVid() { 
+      vid.pause();
+      $('.videoPlayIcon').removeClass('hide');
+    } 
+
+    $('.videoPlayIcon').click(function(){
+      playVid();
+      
+    });
+
+    $('.stopVideo').click(function(){
+      pauseVid();
+    });
+  });
+</script> 
+
+{% schema %}
+  {
+    "name": "Home Banner Section",
+    "settings": [
+     
+    ],
+    "blocks": [
+  {
+    "type": "slideshow",
+    "name": "Slide",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+      {
+          "type": "url",
+          "id": "video_url",
+          "label": "Add Link"
+        },
+      {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    },
+       {
+      "type": "richtext",
+      "id": "decsription",
+      "label": "Description"
+    },
+       {
+      "type": "text",
+      "id": "btn-text",
+      "label": "Shop Now"
+    },
+       {
+      "type": "url",
+      "id": "btn-url",
+      "label": "Button Url"
+    }
+      
+    ]
+  }
+],
+    
+    "presets": [
+      {
+        "name": "Home Banner Section"
+      }
+    ]
+    
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,388 @@
+<div class="panel-wrapper panel-story inViewport">
+  <div class="container">
+    <div class="row">
+      <div class="column-5 column-md-3">
+        <div class="panel-story-heading">
+          <h2>{{ section.settings.heading }}</h2>
+          <p>{{ section.settings.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-story-wrapper">
+    <svg
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 1602.88 651.56"
+    >
+      <polyline points="0.09 536.9 246.53 526.9 596.34 485.46 939.95 359.93 1293.42 231.93 1601.53 1.8" style="fill:none;stroke:#04335d;stroke-miterlimit:10;stroke-width:4.5px"></polyline><polygon points="0.09 536.9 246.53 526.9 596.34 485.46 939.95 359.93 1293.42 231.93 1601.53 1.8 1601.53 621.56 0.09 621.56 0.09 536.9" style="fill:#d0e3f5"></polygon><polygon points="0.09 566.9 246.53 556.9 596.34 515.46 939.95 389.93 1293.42 261.93 1601.53 31.8 1601.53 651.56 0.09 651.56 0.09 566.9" style="fill:#04335d"></polygon>
+    </svg>
+  </div>
+  <div class="panel-story-pointer-wrapper">
+    <div class="panel-story-pointers">
+      {% assign count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'years-content' %}
+          {% assign count = count | plus: 1 %}
+          <div class="panel-story-pointer panel-story-pointer-{{ count }}">
+            <figure
+              class="panel-story-pointer-image"
+              data-modal="modal-startup_{{ count }}"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-startup_{{ count }}"
+            >
+              <img src="{{ block.settings.image | img_url:"original" }}" alt="img" class="entered loaded">
+              <span class="zoom-icon">
+                <svg>
+                  <use xlink:href="#icon-zoom"></use>
+                </svg>
+              </span>
+            </figure>
+            <div class="panel-story-pointer-content">
+              <div class="panel-story-pointer-date">
+                <strong>{{ block.settings.text }}</strong>
+              </div>
+              <div class="panel-story-pointer-title">
+                <h4>{{ block.settings.title }}</h4>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Modal -->
+  {% assign modal_count = 0 %}
+  {% for block in section.blocks %}
+    {% if block.type == 'years-popup' %}
+      {% assign modal_count = modal_count | plus: 1 %}
+      <div
+        class="modal fade {% if modal_count == 1 %}show{% endif %}"
+        id="modal-startup_{{ modal_count }}"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="{% if modal_count != 1 %}true{% endif %}"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
+            </div>
+            <div class="modal-body">
+              <div class="panel-wrapper_modal">
+                <div class="panel-wrapper_box">
+                  <div id="carousel-{{ modal_count }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      {% for i in (1..6) %}
+                        {% assign image_var = 'image' | append: i %}
+                        {% if block.settings[image_var] != blank %}
+                          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img
+                              src="{{ block.settings[image_var] | img_url:"original" }}"
+                              alt="img"
+                              class="d-block w-100"
+                            >
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#carousel-{{ modal_count }}"
+                      data-bs-slide="prev"
+                    >
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#carousel-{{ modal_count }}"
+                      data-bs-slide="next"
+                    >
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                  <div class="panel-wrapper_content">
+                    <h3>{{ block.settings.headding }}</h3>
+                    <p>{{ block.settings.description }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <div class="panel-wrapper panel-story-stats">
+    <div class="container">
+      <div class="row">
+        <div class="column-6">
+          {% for block in section.blocks %}
+            {% if block.type == 'bottom-content' %}
+              <div class="stat-wrapper inViewport">
+                <h4 id="years" class="animating">{{ block.settings.heading }}</h4>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <figure class="panel-story-map">
+      <img
+        src="{{ section.settings.map_img | img_url:"original" }}"
+        alt="img"
+        class="entered loaded"
+      >
+    </figure>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+  .cubes_img {
+     perspective: 1000px;
+     transform-style: preserve-3d;
+     transition: transform 0.5s;
+     position: relative;
+     width: 100%;
+     height: auto;
+   }
+   .cubes_img img {
+     width: 100%;
+     height: auto;
+     display: block;
+     backface-visibility: hidden;
+     position: absolute;
+     top: 0;
+     left: 0;
+     opacity: 0;
+     transition: opacity 0.5s;
+   }
+</style>
+
+<!--
+  <div class="cubes_section">
+    <div class="container">
+      <div class="row">
+        <div class="cubes_title">
+          <h2>360 products view</h2>
+        </div>
+        <div class="cubes_boxes">
+
+          <div class="col-6 col-sm-3 cube_box_inner">
+            <div class="cubes_img" id="yellowCube" onmousemove="rotateImage(event, 'yellowCube')">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/1.png?v=1711106460" style="opacity: 1;">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/2.png?v=1711106460">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/3.png?v=1711106460">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/4.png?v=1711106460">
+             </div>
+          </div>
+
+           <div class="col-6 col-sm-3 cube_box_inner">
+            <div class="cubes_img" id="mutliblueCube" onmousemove="rotateImage(event, 'mutliblueCube')">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/4x4_Blue.png?v=1711106815" style="opacity: 1;">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-24_102700.png?v=1711106815">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_124052.png?v=1711106815">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_124122.png?v=1711106816">
+             </div>
+          </div>
+
+           <div class="col-6 col-sm-3 cube_box_inner">
+            <div class="cubes_img" id="multigreenCube" onmousemove="rotateImage(event, 'multigreenCube')">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/4x4_Green.png?v=1711106930" style="opacity: 1;">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/4x4_Green.png?v=1711106930">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_123925.png?v=1711106931">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_123850.png?v=1711106930">
+             </div>
+          </div>
+
+
+
+           <div class="col-6 col-sm-3 cube_box_inner">
+            <div class="cubes_img" id="multiredCube" onmousemove="rotateImage(event, 'multiredCube')">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-24_075532.png?v=1711107041" style="opacity: 1;">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-24_075532.png?v=1711107041">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_123732.png?v=1711107041">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_123646.png?v=1711107041">
+             </div>
+          </div>
+
+
+           <div class="col-6 col-sm-3 cube_box_inner">
+            <div class="cubes_img" id="singlefourCube" onmousemove="rotateImage(event, 'singlefourCube')">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/4x4_Numbers_and_color.png?v=1711107133" style="opacity: 1;">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-24_101459.png?v=1711107133">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/S4x4_Numbers.png?v=1711107133">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/T4x4_Numbers.png?v=1711107134">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/Screenshot_2024-01-26_120530.png?v=1711107134">
+              <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/T4x4_Flat.png?v=1711107134">
+             </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+-->
+<!--
+  <div id="product_viewer"></div>
+
+  <script src="{{ 'product-viewer.js' | asset_url }}" defer="defer"></script>
+-->
+
+<script>
+  function rotateImage(event, id) {
+     const element = document.getElementById(id);
+     const images = element.getElementsByTagName('img');
+     const totalImages = images.length;
+     const boundingRect = element.getBoundingClientRect();
+     const offsetX = boundingRect.left + boundingRect.width / 2;
+     const percentX = (event.clientX - boundingRect.left) / boundingRect.width;
+     const index = Math.floor(percentX * totalImages);
+     for (let i = 0; i < totalImages; i++) {
+       images[i].style.opacity = i === index ? 1 : 0;
+     }
+   }
+
+   // var productViewer = new ProductViewer({
+   //   element: document.getElementById('yellowCube'),
+   //   imagePath: './images',
+   //   filePrefix: 'img',
+   //   fileExtension: '.png'
+   // });
+
+   // // if you want to see it will rotated 360 deg once it loaded then you have to write some extra code
+
+   // ProductViewer.once('loaded', function (){
+   //   ProductViewer.animate360();
+   // });
+</script>
+
+{% schema %}
+{
+  "name": "Rod Story",
+  "settings": [
+    {
+      "type":"html",
+      "id":"heading",
+      "label":"Add Heading"
+    },
+    {
+      "type":"richtext",
+      "id":"description",
+      "label":"Add Description"
+    },
+     {
+      "type":"image_picker",
+      "id":"map_img",
+      "label":"Add Map Image"
+    }
+  ],
+  "blocks":[
+    {
+    "type":"years-content",
+    "name":"Year Block",
+
+    "settings":[
+    {
+      "type":"image_picker",
+      "id":"image",
+      "label":"Add Image"
+    },
+     {
+      "type":"text",
+      "id":"text",
+      "label":"Add Year"
+    },
+     {
+      "type":"richtext",
+      "id":"tittle",
+      "label":"Add Tittle"
+    }
+    ]
+    },
+     {
+    "type":"years-popup",
+    "name":"Year Popup Content",
+
+    "settings":[
+    {
+      "type":"image_picker",
+      "id":"image1",
+      "label":"Add Image 1"
+    },
+      {
+      "type":"image_picker",
+      "id":"image2",
+      "label":"Add Image 2"
+    },
+      {
+      "type":"image_picker",
+      "id":"image3",
+      "label":"Add Image 3"
+    },
+      {
+      "type":"image_picker",
+      "id":"image4",
+      "label":"Add Image 4"
+    },
+      {
+      "type":"image_picker",
+      "id":"image5",
+      "label":"Add Image 5"
+    },
+      {
+      "type":"image_picker",
+      "id":"image6",
+      "label":"Add Image 6"
+    },
+     {
+      "type":"text",
+      "id":"headding",
+      "label":"Add Heading"
+    },
+     {
+      "type":"html",
+      "id":"description",
+      "label":"Add Description"
+    }
+    ]
+    },
+     {
+    "type":"bottom-content",
+    "name":"Bottom Block",
+
+    "settings":[
+     {
+      "type":"text",
+      "id":"heading",
+      "label":"Add Heading"
+    },
+     {
+      "type":"richtext",
+      "id":"description",
+      "label":"Add Description"
+    }
+    ]
+    }
+
+  ],
+  "presets":[
+    {
+      "name":"Rod Story"
+    }
+  ]
+}
+{% endschema %}

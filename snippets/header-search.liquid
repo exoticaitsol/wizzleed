@@ -1,0 +1,124 @@
+{% comment %}
+  Renders a header search modal. Should be used with 'header.liquid'
+
+  Accepts:
+  - input_id: {String} Id for the search input element (required)
+
+  Usage:
+  {% render 'header-search', input_id: 'My-Id'%}
+{% endcomment %}
+
+<details-modal class="header__search">
+  <details>
+    <summary
+      class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
+      aria-haspopup="dialog"
+      aria-label="{{ 'general.search.search' | t }}"
+    >
+      <span>
+        
+        <!-- <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false">
+          <use href="#icon-search">
+        </svg> -->
+        <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Search</title>
+    <defs>
+        <linearGradient x1="2.34910586%" y1="-27.7778535%" x2="119.612083%" y2="-1.73741899%" id="linearGradient-1">
+            <stop stop-color="#674FFE" offset="0%"></stop>
+            <stop stop-color="#B16FFE" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="dasd" fill-rule="nonzero">
+            <circle id="Oval" fill="url(#linearGradient-1)" transform="translate(15.543900, 15.543900) rotate(-89.462800) translate(-15.543900, -15.543900) " cx="15.5439" cy="15.5439" r="15.4002"></circle>
+            <path d="M17.5595,8.90462 C19.0369,9.79923 20.0275,11.0753 20.4228,12.7606 C20.8996,14.7931 20.4259,16.6175 19.0872,18.2177 C19.0593,18.2514 19.0305,18.2845 19.0023,18.3182 C18.9945,18.3298 18.9872,18.3417 18.9805,18.354 L22.8552,22.1688 C23.0461,22.3568 23.0486,22.664 22.8607,22.855 L22.8067,22.9025 C22.618,23.0449 22.3484,23.0315 22.1747,22.8608 L20.9258,21.6326 L20.2082,20.9277 C20.0227,20.7454 19.8374,20.5629 19.6521,20.3804 L18.2971,19.0477 C18.2883,19.0396 18.2792,19.0313 18.2699,19.0226 C18.2276,19.0514 18.1869,19.0765 18.1493,19.1053 C17.3516,19.7209 16.4151,20.1312 15.4219,20.3001 C13.9215,20.556 12.4928,20.3308 11.1657,19.5676 C9.79057,18.775 8.81012,17.6375 8.32601,16.1206 C7.69064,14.1277 7.98123,12.256 9.22196,10.5652 C10.2523,9.15922 11.6556,8.32833 13.3789,8.07374 C14.8637,7.85438 16.2683,8.12245 17.5595,8.90462 Z M13.502,9.02503 C12.1652,9.22355 11.0503,9.84273 10.192,10.8804 C9.1552,12.1344 8.77276,13.5872 9.08355,15.1856 C9.39863,16.8188 10.3191,18.0535 11.7901,18.8133 C13.5746,19.7355 15.3833,19.6923 17.1073,18.6466 C18.7565,17.6463 19.5648,16.1255 19.6383,14.2919 C19.6114,13.6062 19.5578,13.0416 19.269,12.3093 C18.8763,11.2921 18.1699,10.4264 17.2524,9.83783 C16.109,9.09396 14.853,8.82435 13.502,9.02503 Z" id="Shape" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>
+        <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false">
+          <use href="#icon-close">
+        </svg>
+      </span>
+    </summary>
+    <div
+      class="search-modal modal__content gradient"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'general.search.search' | t }}"
+    >
+      <div class="modal-overlay"></div>
+      <div
+        class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% else %} search-modal__content-bottom{% endif %}"
+        tabindex="-1"
+      >
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- else -%}
+          <search-form class="search-modal__form">
+        {%- endif -%}
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+          <div class="field">
+            <input
+              class="search__input field__input"
+              id="{{ input_id }}"
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ 'general.search.search' | t }}"
+              {%- if settings.predictive_search_enabled -%}
+                role="combobox"
+                aria-expanded="false"
+                aria-owns="predictive-search-results"
+                aria-controls="predictive-search-results"
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                autocorrect="off"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              {%- endif -%}
+            >
+            <label class="field__label" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+            <input type="hidden" name="options[prefix]" value="last">
+            <button
+              type="reset"
+              class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+              aria-label="{{ 'general.search.reset' | t }}"
+            >
+              <svg class="icon icon-close" aria-hidden="true" focusable="false">
+                <use xlink:href="#icon-reset">
+              </svg>
+            </button>
+            <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+              <svg class="icon icon-search" aria-hidden="true" focusable="false">
+                <use href="#icon-search">
+              </svg>
+            </button>
+          </div>
+
+          {%- if settings.predictive_search_enabled -%}
+            <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+              {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+            </div>
+
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+          {%- endif -%}
+        </form>
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- else -%}
+          </search-form>
+        {%- endif -%}
+        <button
+          type="button"
+          class="search-modal__close-button modal__close-button link link--text focus-inset"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          <svg class="icon icon-close" aria-hidden="true" focusable="false">
+            <use href="#icon-close">
+          </svg>
+        </button>
+      </div>
+    </div>
+  </details>
+</details-modal>

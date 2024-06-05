@@ -1,0 +1,90 @@
+<section class="testimonial_slider py_8">
+        <div class="container">
+          <div class="main_custom-txt">
+            <div class="tittle_heading">
+              <h2 class="text-start">{{ section.settings.heading }}</h2>
+            </div>
+            <ul class="flex_arrow">
+              <li class="slide_controls_1 text-left">
+                <div
+                  class="slide-prev slick-arrow slick-disabled"
+                  aria-disabled="true"
+                  style>
+                  <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/slide_arrow_left.png?v=1703156263" />
+                </div>
+                <div class="slide-next slick-arrow" aria-disabled="false" style>
+                  <img src="https://cdn.shopify.com/s/files/1/0625/3871/1200/files/slide_arrow_right.png?v=1703156263" />
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="slider_testimonial_sec">
+            {% for block in section.blocks %}
+            <div class="slider_under_bx">
+              <div class="slider_under">
+                <div class="slider_txt">
+                  <div class="img_slide">
+                    <img src="{{ block.settings.image | img_url: "master" }}" alt />
+                   {{ block.settings.decsription }}
+
+                    <h2>{{ block.settings.heading }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+           {% endfor %}
+
+            
+          </div>
+        </div>
+      </section>
+{% schema %}
+   {
+    "name": "Home Testimonials",
+    "settings": [
+      {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    }
+    ],
+    "blocks": [
+  {
+    "type": "slideshow",
+    "name": "Testimonial",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+      {
+      "type": "html",
+      "id": "heading",
+      "label": "Name"
+    },
+       {
+      "type": "richtext",
+      "id": "decsription",
+      "label": "Description"
+    }
+       
+    ]
+  }
+],
+    
+    "presets": [
+      {
+        "name": "Home Testimonials"
+      }
+    ]
+    
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

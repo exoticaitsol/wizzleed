@@ -1,0 +1,52 @@
+ <section class="game_levels_sec py_8">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="game_under_txt">
+               <h2>{{ section.settings.heading }}</h2>
+              {{ section.settings.decsription }}
+              </div>
+               </div>
+              <div class="col-md-6">
+                <div class="game_img">
+                   <img src="{{ section.settings.image | img_url: "master" }}" alt>
+                </div>
+              </div>
+           
+          </div>
+        </div>
+      </section>
+{% schema %}
+   {
+    "name": "Levels of Complexities",
+    "settings": [
+       {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+      {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+       {
+      "type": "html",
+      "id": "decsription",
+      "label": "Description"
+    }
+    ],
+    
+    "presets": [
+      {
+        "name": "Levels of Complexities"
+      }
+    ]
+    
+  }
+{% endschema %}
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

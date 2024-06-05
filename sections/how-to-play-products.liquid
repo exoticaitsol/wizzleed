@@ -1,0 +1,74 @@
+ <div class="product-grid-container how-to-play-products">
+   <div class="collection page-width">
+            <ul id="product-grid" data-id="template--16330194518176__product-grid" class="
+                grid product-grid grid--2-col-tablet-down
+                grid--3-col-desktop
+              ">
+              {% for block in section.blocks %}
+                  {% assign product = all_products[block.settings.product_list] %}
+<li class="grid__item">
+ <div class="product-imgs">
+      <div class="card__inner">
+        <div class="card__media">
+            <div class="cstmmedia">
+              
+              <img src="{{ product.featured_image | img_url:"original" }}">
+            </div>
+        <div class="card__content">
+          <div class="card__information">
+            <h3 class="card__heading">
+
+               {{ product.title }}
+             
+            </h3>
+            <a href="{{ block.settings.url }}" download>{{ section.settings.text }}</a>
+          </div>
+          </div>
+      </div>
+ </div>
+ </div>
+</li>
+              {% endfor %}
+            </ul>
+ </div>
+ </div>
+{% schema %}
+  {
+    "name": "How to play products",
+    "settings": [
+       
+      {
+      "type": "text",
+      "id": "text",
+      "label": "Add Button Text"
+    }
+    ],
+     "blocks": [
+  {
+    "type": "product",
+    "name": "Prduct",
+    "settings": [
+      
+     {
+      "type": "product",
+      "id": "product_list",
+      "label": "Add Product"
+    },
+      
+       {
+      "type": "url",
+      "id": "url",
+      "label": "Add PDF Link"
+    }
+    ]
+  }
+],
+    
+    "presets": [
+      {
+        "name": "How to play products"
+      }
+    ]
+    
+  }
+{% endschema %}

@@ -1,0 +1,78 @@
+<section class="download app_download_page">
+ <div class="container">
+  <div class="download_main">
+          <img src="{{ section.settings.image3 | img_url: "master" }}" alt="img">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="downld_cont">
+                  <h3>{{ section.settings.heading }}</h3>
+                  <div class="downld_img d-flex">
+                    <a href="{{ section.settings.image_url }}" target="_blank"><img src="{{ section.settings.image | img_url: "master" }}" alt></a>
+                    <a href="{{ section.settings.image_url2 }}" target="_blank"> <img src="{{ section.settings.image2 | img_url: "master" }}" alt></a>
+                
+                  </div>
+                  <p>{{ section.settings.decription }}</p>
+                </div>
+              </div>
+              <!-- <div class="col-md-3">
+                <div class="downl_mobile">
+                  <img src="{{ section.settings.image3 | img_url: "master" }}" alt>
+                </div>
+              </div> -->
+              
+            </div>
+         </div>
+        </div>
+  </div>
+      </section>
+{% schema %}
+ {
+    "name": "Download Wizzleup",
+    "settings": [
+      {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+       {
+      "type": "image_picker",
+      "id": "image",
+      "label": "App Image"
+    },
+       {
+      "type": "url",
+      "id": "image_url",
+      "label": "Image Url"
+    },
+       {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "App Image"
+    },
+       {
+      "type": "url",
+      "id": "image_url2",
+      "label": "Image Url"
+    },
+       {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Background Section Image"
+    },
+      
+      {
+      "type": "richtext",
+      "id": "decription",
+      "label": "Description"
+    }
+    ],
+    
+    "presets": [
+      {
+        "name": "Download Wizzleup"
+      }
+    ]
+    
+  }
+{% endschema %}

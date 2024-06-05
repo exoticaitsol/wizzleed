@@ -1,0 +1,61 @@
+<section class="game_levels_sec py_8 self_checking">
+        <div class="container">
+          <div class= "self_checking_head">
+          <p>{{ section.settings.headings }}</p>
+          </div>
+          <div class="row">
+          {% for block in section.blocks %}
+            <div class="col-md-3 mb-4 mb-xl-0">
+              {{ block.settings.decsription }}
+              </div>
+            {% endfor %}
+         
+        </div>
+        </div>
+      </section>
+
+
+
+         
+      {% schema %}
+  {
+    "name": "Home App Section",
+    "settings": [
+       
+      {
+      "type": "textarea",
+      "id": "headings",
+      "label": "Text"
+    }
+     
+    ],
+      "blocks": [
+    {
+      "type": "App-Text",
+      "name": "App-Text",
+      "settings": [
+        
+         {
+      "type": "html",
+      "id": "decsription",
+      "label": "Description"
+    }
+      ]
+    }
+  ],
+    
+    "presets": [
+      {
+        "name": "Home App Section"
+      }
+    ]
+    
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+      
